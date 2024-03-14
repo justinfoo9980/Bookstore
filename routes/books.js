@@ -1,4 +1,4 @@
-/* const { Book, validate } = require('../models/book');
+const { Book, validate } = require('../models/book');
 const { Genre } = require('../models/genre');
 const mongoose = require('mongoose');
 const express = require('express');
@@ -16,8 +16,8 @@ router.post('/', async (req, res) => {
     const genre = await Genre.findById(req.body.genreId);
     if (!genre) return res.status(400).send('Invalid genre.');
 
-    const book = new Book({
-        title: req.body.title,
+    let book = new Book({
+        name: req.body.name,
         genre: {
             _id: genre._id,
             name: genre.name
@@ -68,4 +68,4 @@ router.get('/:id', async (req, res) => {
 });
 
 module.exports = router;
- */
+ 

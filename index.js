@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
-//const books = require('./routes/books');
+const books = require('./routes/books');
 const express = require('express');
 const app = express();
 require('./startup/validation')();
@@ -18,7 +18,7 @@ mongoose.connect('mongodb://localhost/Bookstore')
 app.use(express.json());
 app.use('/genres', genres);
 app.use('/customers', customers);
-//app.use('/books', books);
+app.use('/books', books);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

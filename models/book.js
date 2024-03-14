@@ -1,8 +1,6 @@
-/* const Joi = require('joi');
+ const Joi = require('joi');
 const mongoose = require('mongoose');
 const { genreSchema } = require('./genre');
-
-//Joi.objectId = require('joi - objectid')(Joi);
 
 const Book = mongoose.model('Book', new mongoose.Schema({
     name: {
@@ -13,8 +11,7 @@ const Book = mongoose.model('Book', new mongoose.Schema({
     },
     genre: {
         type: genreSchema,
-        required: false
-        //required: true
+        required: true
     },
     numberInStock: {
         type: Number,
@@ -25,10 +22,10 @@ const Book = mongoose.model('Book', new mongoose.Schema({
 }));
 
 function validateBook(book) {
+    // Input to the API from front end
     const schema = Joi.object({
         name: Joi.string().min(5).max(50).required(),
         genreId: Joi.objectId(),
-        //genreId: Joi.objectId().required,
         numberInStock: Joi.number().min(0).required()
     });
 
@@ -36,4 +33,4 @@ function validateBook(book) {
 }
 
 exports.Book = Book;
-exports.validate = validateBook; */
+exports.validate = validateBook; 
