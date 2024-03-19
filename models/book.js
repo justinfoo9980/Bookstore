@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const { genreSchema } = require('./genre');
 
-const Book = mongoose.model('Book', new mongoose.Schema({
+const bookSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -19,7 +19,9 @@ const Book = mongoose.model('Book', new mongoose.Schema({
         min: 0,
         max: 255
     }
-}));
+});
+
+const Book = mongoose.model('Book', bookSchema);
 
 function validateBook(book) {
     // Input to the API from front end
