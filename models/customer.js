@@ -17,6 +17,7 @@ const Customer = mongoose.model('Customer', new mongoose.Schema({
 }));
 
 function validateCustomer(customer) {
+    // Input to the API from front end
     const schema = Joi.object({
         name: Joi.string().min(5).max(50).required(),
         phone: Joi.string().min(5).max(50).required()
