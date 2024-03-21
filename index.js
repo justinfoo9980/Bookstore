@@ -4,6 +4,10 @@ const genres = require('./routes/genres');
 const customers = require('./routes/customers');
 const books = require('./routes/books');
 const users = require('./routes/users');
+const orders = require('./routes/orders');
+const carts = require('./routes/carts');
+
+
 const auth = require('./routes/auth');
 const express = require('express');
 const app = express();
@@ -28,6 +32,8 @@ app.use('/genres', genres);
 app.use('/customers', customers);
 app.use('/books', books);
 app.use('/users', users);
+app.use('/orders', orders);
+app.use('/carts', carts);
 app.use('/auth', auth);
 
 const port = process.env.PORT || 3000;

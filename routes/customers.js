@@ -15,7 +15,8 @@ router.post('/', async (req, res) => {
 
     let customer = new Customer({
         name: req.body.name,
-        phone: req.body.phone
+        defaultShippingAddress: req.body.defaultShippingAddress,
+        defaultBillingAddress: req.body.defaultBillingAddress
     });
     customer = await customer.save();
 
@@ -30,7 +31,8 @@ router.put('/:id', async (req, res) => {
     const customer = await Customer.findByIdAndUpdate(req.params.id,
         {
             name: req.body.name,
-            phone: req.body.phone
+            defaultShippingAddress: req.body.defaultShippingAddress,
+            defaultBillingAddress: req.body.defaultBillingAddress
         }, { new: true });
 
     if (!customer)

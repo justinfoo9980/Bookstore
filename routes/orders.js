@@ -27,7 +27,7 @@ router.get('/me', auth, async (req, res) => {
 });
 
 /**
- * Route to post order
+ * Create a new order
  * Method: POST
  */
 router.post('/', async (req, res) => {
@@ -48,12 +48,15 @@ router.post('/', async (req, res) => {
     // todo where i left off have to edit the schema in order to not import the whole thing(the user fields like password). should ownself define
     let order = new Order({
         user: {
-            _id: user._id
+            _id: user._id,
+            name: user.name,
+            email: user.email
         },
         shippingAddress: req.body.shippingAddress,
         billingAddress: req.body.billingAddress,
         book: {
-            _id: book._id
+            _id: book._id,
+            name: book.name
         },
         totalCost: req.body.totalCost
     });
@@ -71,3 +74,5 @@ router.post('/', async (req, res) => {
 * Route to delete order
 * Method: DELETE
 */
+
+module.exports = router;

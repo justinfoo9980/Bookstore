@@ -43,5 +43,6 @@ function validateUser(user) {
     return schema.validate(user);
 }
 
+exports.userSchema = userSchema;//probaly can remove this once i test out using full schema
 exports.User = User;
 exports.validate = validateUser;
