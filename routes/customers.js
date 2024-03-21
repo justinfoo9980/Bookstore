@@ -8,6 +8,7 @@ router.get('/', async (req, res) => {
     res.send(customers);
 });
 
+//no longer needed as customer created by registering user
 router.post('/', async (req, res) => {
     const { error } = validate(req.body);
     if (error)

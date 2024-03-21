@@ -1,7 +1,12 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
-const Customer = mongoose.model('Customer', new mongoose.Schema({
+const customerSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     name: {
         type: String,
         required: true,
@@ -18,11 +23,14 @@ const Customer = mongoose.model('Customer', new mongoose.Schema({
         minlength: 5,
         maxlength: 100
     }
-}));
+});
+
+const Customer = mongoose.model('Customer', customerSchema);
 
 function validateCustomer(customer) {
     // Input to the API from front end
     const schema = Joi.object({
+        customerId: Joi.objectId(),
         name: Joi.string().min(5).max(50).required(),
         defaultShippingAddress: Joi.string().min(5).max(100),
         defaultBillingAddress: Joi.string().min(5).max(100)
@@ -31,7 +39,6 @@ function validateCustomer(customer) {
     return schema.validate(customer);
 }
 
+exports.customerSchema = customerSchema;
 exports.Customer = Customer; 
 exports.validate = validateCustomer;
-
-//todo export schema for customer
