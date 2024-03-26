@@ -33,5 +33,6 @@ function validateCart(cart) {
     return schema.validate(cart);
 }
 
+exports.cartSchema = cartSchema;
 exports.Cart = Cart;
 exports.validate = validateCart; 

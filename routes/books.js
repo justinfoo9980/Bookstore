@@ -25,7 +25,8 @@ router.post('/', async (req, res) => {
             _id: genre._id,
             name: genre.name
         },
-        numberInStock: req.body.numberInStock
+        numberInStock: req.body.numberInStock,
+        price: req.body.price,
     });
     await book.save();
 
@@ -48,7 +49,8 @@ router.put('/:id', async (req, res) => {
                 _id: genre._id,
                 name: genre.name
             },
-            numberInStock: req.body.numberInStock
+            numberInStock: req.body.numberInStock,
+            price: req.body.price
         }, { new: true });
 
     if (!book)

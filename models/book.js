@@ -18,6 +18,11 @@ const bookSchema = new mongoose.Schema({
         required: true,
         min: 0,
         max: 255
+    },
+    price: {
+        type: Number,
+        required: true,
+        min: 0
     }
 });
 
@@ -28,7 +33,8 @@ function validateBook(book) {
     const schema = Joi.object({
         name: Joi.string().min(5).max(50).required(),
         genreId: Joi.objectId(),
-        numberInStock: Joi.number().min(0).required()
+        numberInStock: Joi.number().min(0).required(),
+        price: Joi.number().min(0).required()
     });
 
     return schema.validate(book);
