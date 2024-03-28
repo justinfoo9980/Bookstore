@@ -67,6 +67,8 @@ router.post('/', async (req, res) => {
     order = await order.save();
 
     res.send(order);
+    // delete cart after send order
+    const cart = await cartController.deleteCart(customerId);
 });
 
 /**
