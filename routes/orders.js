@@ -3,7 +3,9 @@ const admin = require('../middleware/admin');
 const { Order, validate } = require('../models/order');
 const { User } = require('../models/user');
 const { Book } = require('../models/book');
-const { Customer } = require('../models/customers')
+const { Customer } = require('../models/customer')
+const { Cart } = require('../models/cart')
+const cartController = require('../controllers/cartController');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
@@ -23,8 +25,22 @@ router.get('/', async (req, res) => {
  * Requires: Logged in
  */
 router.get('/me', auth, async (req, res) => {
-    const orders = await Order.find({userId: req.body.userId});
-    res.send(orders);
+    //const orders = await Order.find({userId: req.body.userId});
+    //res.send(orders);
+
+
+    try {
+        const customer = await Customer.findOne({ userId: req.user._id });
+        if (!customer) return res.status(404).send('Customer not found');
+        const order = await Order.findOne({ 'order.customer_id': customer._id }).populate('order.items.book_id');
+        if (!order) {
+            throw new Error('Order not found');
+        }
+        res.send(order);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
 });
 
 /**
@@ -36,30 +52,17 @@ router.post('/', async (req, res) => {
     if (error)
         return res.status(400).send(error.details[0].message);
 
-    const book = await Book.findById(req.body.bookId);
+    const cart = await Cart.findById(req.body.cartId);
 
-    if (!book)
-        return res.status(400).send('Invalid book.');
+    if (!cart)
+        return res.status(400).send('Invalid cart.');
 
-    const user = await User.findById(req.body.userId);
-
-    if (!user)
-        return res.status(400).send('Invalid user.');
-
-    // todo where i left off have to edit the schema in order to not import the whole thing(the user fields like password). should ownself define
+    const totalPrice = await cartController.calculateTotalPrice(req.body.cartId);
     let order = new Order({
-        user: {
-            _id: user._id,
-            name: user.name,
-            email: user.email
-        },
+        order: cart,
+        totalCost: totalPrice,
         shippingAddress: req.body.shippingAddress,
-        billingAddress: req.body.billingAddress,
-        book: {
-            _id: book._id,
-            name: book.name
-        },
-        totalCost: req.body.totalCost
+        billingAddress: req.body.billingAddress
     });
     order = await order.save();
 

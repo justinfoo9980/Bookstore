@@ -1,12 +1,27 @@
 ﻿const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const { Cart, validate } = require('../models/cart');
+const { Customer } = require('../models/customer');
 const cartController = require('../controllers/cartController');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
 // GET - Retrieve a user's cart
+
+
+router.get('/me', auth, async (req, res) => {
+    try {
+        const customer = await Customer.findOne({ userId: req.user._id });
+        if (!customer) return res.status(404).send('Customer not found');
+        const cart = await cartController.getCart(customer._id);
+        res.send(cart);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
 router.get('/:customerId', async (req, res) => {
     try {
         const customerId = req.params.customerId;
@@ -34,6 +49,8 @@ router.post('/', async (req, res) => {
 
     //    res.status(201).json({ cart });
     //}
+    const { error } = validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
     try {
         const { customer_id } = req.body;
         const cart = await cartController.createCart(customer_id);
