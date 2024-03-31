@@ -62,14 +62,9 @@ router.delete('/:id', async (req, res) => {
 });
 
 router.get('/me', auth, async (req, res) => {
-    try {
         const customer = await Customer.findOne({ userId: req.user._id });
         if (!customer) return res.status(404).send('Customer not found');
         res.send(customer);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
-    }
 });
 
 //anything with :id must be placed last  else it will confuse to think that the string is the :id

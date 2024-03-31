@@ -27,20 +27,14 @@ router.get('/', async (req, res) => {
 router.get('/me', auth, async (req, res) => {
     //const orders = await Order.find({userId: req.body.userId});
     //res.send(orders);
-
-
-    try {
-        const customer = await Customer.findOne({ userId: req.user._id });
-        if (!customer) return res.status(404).send('Customer not found');
-        const order = await Order.findOne({ 'order.customer_id': customer._id }).populate('order.items.book_id');
-        if (!order) {
-            throw new Error('Order not found');
-        }
-        res.send(order);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
+    
+    const customer = await Customer.findOne({ userId: req.user._id });
+    if (!customer) return res.status(404).send('Customer not found');
+    const order = await Order.findOne({ 'order.customer_id': customer._id }).populate('order.items.book_id');
+    if (!order) {
+        throw new Error('Order not found');
     }
+    res.send(order);
 });
 
 /**
@@ -68,7 +62,7 @@ router.post('/', async (req, res) => {
 
     res.send(order);
     // delete cart after send order
-    const cart = await cartController.deleteCart(customerId);
+    await cartController.deleteCart(customerId);
 });
 
 /**
