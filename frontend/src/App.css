@@ -27,7 +27,27 @@
 .App-link {
   color: #61dafb;
 }
+/* Cart button Design */
+.cart-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 
+.cart-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cart-button:hover {
+  background-color: #45a049;
+}
+
+/* default react logo (can delete afterwards) */
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

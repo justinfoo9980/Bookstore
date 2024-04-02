@@ -1,3 +1,4 @@
+import React from "react";
 import logo from './logo.svg';
 import './App.css';
 import Top from "./Components/Top"; //return it to get output out, edit in this file <--
